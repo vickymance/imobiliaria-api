@@ -1,0 +1,310 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CRM Imobiliária API",
+    "version": "1.0.0",
+    "description": "API REST para gerenciamento de clientes e imóveis com autenticação JWT"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Registrar usuário",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Rogerio",
+                "email": "rogerio@email.com",
+                "password": "123456",
+                "role": "broker"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuário criado com sucesso" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "rogerio@email.com",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Token JWT retornado" }
+        }
+      }
+    },
+    "/properties": {
+      "get": {
+        "summary": "Listar imóveis",
+        "tags": ["Properties"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Lista de imóveis" }
+        }
+      },
+      "post": {
+        "summary": "Criar imóvel (Broker)",
+        "tags": ["Properties"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "city": "São Paulo",
+                "neighborhood": "Moema",
+                "street": "Rua X",
+                "size": 85,
+                "bedrooms": 2,
+                "type": "apartamento",
+                "garage": true,
+                "price": 750000,
+                "images": ["foto1.jpg"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Imóvel criado com sucesso" }
+        }
+      }
+    },
+    "/properties/{id}": {
+      "get": {
+        "summary": "Buscar imóvel por ID",
+        "tags": ["Properties"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Imóvel encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar imóvel (Broker)",
+        "tags": ["Properties"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "price": 1150000,
+                "bedrooms": 4,
+                "images": ["foto1.jpg"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Imóvel atualizado com sucesso" }
+        }
+      }
+    },
+    "/clients": {
+      "get": {
+        "summary": "Listar clientes (Broker)",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Lista de clientes" }
+        }
+      },
+      "post": {
+        "summary": "Criar cliente (Broker)",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Carlos Silva",
+                "phone": "11999999999",
+                "email": "carlos@email.com",
+                "regionInterest": "Moema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Cliente criado com sucesso" }
+        }
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "summary": "Buscar cliente por ID (Broker)",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Cliente encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar cliente (Broker)",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name":"Carlos Silva",
+                "phone": "11888888888",
+                "email": "carlos@email.com",
+                "regionInterest": "Itaim"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cliente atualizado com sucesso" }
+        }
+      }
+    },
+    "/clients/{id}/notes": {
+      "post": {
+        "summary": "Adicionar nota de follow-up",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "note": "Cliente solicitou proposta."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Nota adicionada com sucesso" }
+        }
+      }
+    },
+    "/clients/{id}/next-update": {
+      "post": {
+        "summary": "Definir próxima atualização",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "date": "2026-03-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Próxima atualização definida com sucesso" }
+        }
+      }
+    },
+    "/clients/{id}/link-property": {
+      "post": {
+        "summary": "Vincular imóvel ao cliente",
+        "tags": ["Clients"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "propertyId": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Imóvel vinculado com sucesso" }
+        }
+      }
+    }
+  }
+}
