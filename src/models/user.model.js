@@ -1,9 +1,10 @@
-export function createUser({ id, name, email, password, role }) {
+export function createUser({ id, name, email, password, role, creci }) {
   return {
     id,
     name,
     email,
     password,
-    role // "broker" ou "client"
+    role,
+    creci: creci || null
   };
 }

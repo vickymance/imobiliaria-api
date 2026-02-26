@@ -20,48 +20,117 @@
     }
   },
   "paths": {
-    "/auth/register": {
-      "post": {
-        "summary": "Registrar usuário",
-        "tags": ["Auth"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "name": "Rogerio",
-                "email": "rogerio@email.com",
-                "password": "123456",
-                "role": "broker"
-              }
-            }
+  "/admin/pending-brokers": {
+  "get": {
+    "summary": "Listar corretores pendentes (Admin)",
+    "tags": ["Admin"],
+    "security": [
+      { "BearerAuth": [] }
+    ],
+    "responses": {
+      "200": {
+        "description": "Lista de corretores pendentes"
+      },
+      "403": {
+        "description": "Acesso restrito a admin"
+      }
+    }
+  }
+},
+"/admin/approve-broker/{id}": {
+  "patch": {
+    "summary": "Aprovar corretor (Admin)",
+    "tags": ["Admin"],
+    "security": [
+      { "BearerAuth": [] }
+    ],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Corretor aprovado"
+      },
+      "403": {
+        "description": "Acesso restrito a admin"
+      },
+      "404": {
+        "description": "Usuário não encontrado"
+      }
+    }
+  }
+},  
+"/auth/register-broker": {
+  "post": {
+    "summary": "Registrar corretor (CRECI obrigatório)",
+    "tags": ["Auth"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "example": {
+            "name": "Rogerio Broker",
+            "email": "broker@email.com",
+            "password": "123456",
+            "creci": "123456"
           }
-        },
-        "responses": {
-          "201": { "description": "Usuário criado com sucesso" }
         }
       }
     },
-    "/auth/login": {
-      "post": {
-        "summary": "Login",
-        "tags": ["Auth"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "email": "rogerio@email.com",
-                "password": "123456"
-              }
-            }
+    "responses": {
+      "201": { "description": "Corretor registrado com sucesso" },
+      "400": { "description": "Erro de validação ou CRECI inválido" }
+    }
+  }
+},
+"/auth/register-client": {
+  "post": {
+    "summary": "Registrar cliente",
+    "tags": ["Auth"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "example": {
+            "name": "Cliente Teste",
+            "email": "cliente@email.com",
+            "password": "123456"
           }
-        },
-        "responses": {
-          "200": { "description": "Token JWT retornado" }
         }
       }
     },
+    "responses": {
+      "201": { "description": "Cliente registrado com sucesso" },
+      "400": { "description": "Erro de validação" }
+    }
+  }
+},
+"/auth/login": {
+  "post": {
+    "summary": "Login",
+    "tags": ["Auth"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "example": {
+            "email": "broker@email.com",
+            "password": "123456"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": { "description": "Token JWT retornado" },
+      "401": { "description": "Credenciais inválidas" }
+    }
+  }
+},
     "/properties": {
       "get": {
         "summary": "Listar imóveis",
