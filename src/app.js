@@ -4,7 +4,6 @@ import propertyRoutes from "./routes/property.routes.js";
 import clientRoutes from "./routes/client.routes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./resources/swagger.json" with { type: "json" };
-import adminRoutes from "./routes/admin.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -16,7 +15,6 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/properties", propertyRoutes);
 app.use("/clients", clientRoutes);
-app.use("/admin", adminRoutes);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;

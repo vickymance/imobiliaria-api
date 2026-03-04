@@ -11,16 +11,16 @@ import { authorize } from "../middleware/role.middleware.js";
 
 const router = Router();
 
-// Ambos podem listar
+// Ambos autenticados podem listar
 router.get("/", authenticate, list);
 
-// Ambos podem visualizar por ID
+// Ambos autenticados podem ver por ID
 router.get("/:id", authenticate, getById);
 
-// Apenas broker cria
+// Apenas broker pode criar
 router.post("/", authenticate, authorize("broker"), create);
 
-// Apenas broker atualiza
+// Apenas broker pode atualizar
 router.put("/:id", authenticate, authorize("broker"), update);
 
 export default router;

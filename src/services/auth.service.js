@@ -1,93 +1,96 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { db } from "../database/database.js";
-import { createUser } from "../models/user.model.js";
+import { users } from "../database/database.js";
 import { findCreci } from "./creci.service.js";
+import { JWT_SECRET } from "../config/jwt.js";
 
-const SECRET = "superSecretKey";
+export async function registerBroker(data) {
+  const { name, email, password, creci } = data;
 
-// 🔵 Registrar Broker
-export async function registerBrokerService({ name, email, password, creci }) {
   if (!name || !email || !password || !creci) {
     throw new Error("Todos os campos são obrigatórios");
   }
 
-  const userExists = db.users.find(u => u.email === email);
-  if (userExists) {
-    throw new Error("Usuário já existe");
+  const existingUser = users.find(u => u.email === email);
+  if (existingUser) {
+    throw new Error("Email já cadastrado");
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  let creciStatus = "not_found";
   const creciData = findCreci(creci);
 
-  if (!creciData) {
-    throw new Error("CRECI não encontrado");
+  if (creciData) {
+    creciStatus = creciData.status; // active ou inactive
   }
 
-  if (creciData.status !== "active") {
-    throw new Error("CRECI não está ativo");
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 8);
-
-  const newUser = createUser({
+  const newUser = {
     id: Date.now().toString(),
     name,
     email,
     password: hashedPassword,
-    role: "broker_pending",
-    creci
-  });
+    role: "broker",
+    creci,
+    creci_status: creciStatus
+  };
 
-  db.users.push(newUser);
+  users.push(newUser);
 
-  return newUser;
+  return {
+    message: "Corretor registrado com sucesso",
+    creci_status: creciStatus
+  };
 }
 
-// 🟢 Registrar Client
-export async function registerClientService({ name, email, password }) {
+export async function registerClient(data) {
+  const { name, email, password } = data;
+
   if (!name || !email || !password) {
     throw new Error("Todos os campos são obrigatórios");
   }
 
-  const userExists = db.users.find(u => u.email === email);
-  if (userExists) {
-    throw new Error("Usuário já existe");
+  const existingUser = users.find(u => u.email === email);
+  if (existingUser) {
+    throw new Error("Email já cadastrado");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 8);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = createUser({
+  const newUser = {
     id: Date.now().toString(),
     name,
     email,
     password: hashedPassword,
     role: "client"
-  });
+  };
 
-  db.users.push(newUser);
+  users.push(newUser);
 
-  return newUser;
+  return { message: "Cliente registrado com sucesso" };
 }
 
-// 🔐 Login
-export async function loginUser({ email, password }) {
-  const user = db.users.find(u => u.email === email);
+export async function login(data) {
+  const { email, password } = data;
 
+  const user = users.find(u => u.email === email);
   if (!user) {
-    throw new Error("Usuário não encontrado");
+    throw new Error("Credenciais inválidas");
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
-
-  if (!passwordMatch) {
-    throw new Error("Senha inválida");
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) {
+    throw new Error("Credenciais inválidas");
   }
 
-  const token = jwt.sign(
-    { id: user.id, role: user.role },
-    SECRET,
-    { expiresIn: "1h" }
-  );
+const token = jwt.sign(
+  {
+    id: user.id,
+    role: user.role
+  },
+  JWT_SECRET,
+  { expiresIn: "1h" }
+);
 
-  return token;
+  return { token };
 }

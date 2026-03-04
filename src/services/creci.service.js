@@ -1,5 +1,5 @@
-import { db } from "../database/database.js";
+import { creciRegistry } from "../database/database.js";
 
-export function findCreci(creciNumber) {
-  return db.creciRegistry.find(c => c.number === creciNumber);
+export function findCreci(number) {
+  return creciRegistry.find(c => c.number === number);
 }
