@@ -2,7 +2,8 @@ import {
   addProperty,
   getAllProperties,
   getPropertyById,
-  updateProperty
+  updateProperty,
+  deleteProperty
 } from "../services/property.service.js";
 
 export function create(req, res) {
@@ -25,7 +26,7 @@ export function list(req, res) {
       neighborhood: property.neighborhood,
       type: property.type,
       price: property.price,
-      image: property.images[0] || null
+      image: property.images?.[0] || null
     }));
 
     return res.json(showcase);
@@ -52,7 +53,8 @@ export function getById(req, res) {
 
     return res.json(property);
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(error.status || 500).json({ 
+      error: error.message });
   }
 }
 
@@ -61,6 +63,21 @@ export function update(req, res) {
     const property = updateProperty(req.params.id, req.body);
     res.json(property);
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(error.status || 500).json({
+       error: error.message });
+  }
+}
+
+export function remove(req, res) {
+  try {
+    const property = deleteProperty(req.params.id);
+    res.json({
+      message: "Imóvel deletado com sucesso",
+      property
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      error: error.message
+    });
   }
 }

@@ -18,6 +18,14 @@ export function createClient({
     selectedPropertyId: selectedPropertyId || null,
     lastUpdate: lastUpdate || null,
     nextUpdate: nextUpdate || null,
-    notes: notes || []
+    notes: [
+  {
+    note: String,
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }
+]
   };
 }

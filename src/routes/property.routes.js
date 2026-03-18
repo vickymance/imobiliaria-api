@@ -3,7 +3,8 @@ import {
   create,
   list,
   getById,
-  update
+  update,
+  remove
 } from "../controllers/property.controller.js";
 
 import { authenticate } from "../middleware/auth.middleware.js";
@@ -22,5 +23,8 @@ router.post("/", authenticate, authorize("broker"), create);
 
 // Apenas broker pode atualizar
 router.put("/:id", authenticate, authorize("broker"), update);
+
+// Apenas broker pode deletar
+router.delete("/:id", authenticate, authorize("broker"), remove);
 
 export default router;

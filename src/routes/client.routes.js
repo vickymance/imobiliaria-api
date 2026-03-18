@@ -6,7 +6,9 @@ import {
   update,
   addNote,
   setNext,
-  linkProperty
+  linkProperty,
+  getNotes,
+  updatePipelineStatus
 } from "../controllers/client.controller.js";
 
 import { authenticate } from "../middleware/auth.middleware.js";
@@ -17,18 +19,33 @@ const router = Router();
 // Apenas broker acessa tudo
 router.use(authenticate, authorize("broker"));
 
+// ===============================
+// CLIENTES
+// ===============================
 router.post("/", create);
 router.get("/", list);
 router.get("/:id", getById);
 router.put("/:id", update);
 
-// Última atualização (nota)
+// ===============================
+// FOLLOW-UP
+// ===============================
 router.post("/:id/notes", addNote);
+router.get("/:id/notes", getNotes); // ✅ CORRETO
 
-// Próxima atualização
+// ===============================
+// PRÓXIMA ATUALIZAÇÃO
+// ===============================
 router.post("/:id/next-update", setNext);
 
-// Vincular imóvel
+// ===============================
+// VINCULAR IMÓVEL
+// ===============================
 router.post("/:id/link-property", linkProperty);
+
+// ===============================
+// ATUALIZAR PIPELINE
+// ===============================
+router.patch("/:id/pipeline", updatePipelineStatus);
 
 export default router;

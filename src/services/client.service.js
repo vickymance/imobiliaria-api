@@ -1,25 +1,41 @@
 import { clients } from "../database/database.js";
 import { createClient } from "../models/client.model.js";
 
+// ===============================
+// CRIAR CLIENTE
+// ===============================
 export function addClient(data) {
-  const newClient = createClient({
-    id: Date.now().toString(),
+  const { name, phone, email } = data;
+
+  if (!name || !phone || !email) {
+    throw new Error("Campos obrigatórios não preenchidos");
+  }
+
+  const newClient = {
+    id: clients.length + 1,
+    ...data,
     notes: [],
-    nextUpdate: null,
-    propertyId: null,
-    ...data
-  });
+pipeline: "frio",
+    nextUpdate: null
+  };
 
   clients.push(newClient);
+
   return newClient;
 }
 
+// ===============================
+// LISTAR CLIENTES
+// ===============================
 export function getAllClients() {
   return clients;
 }
 
+// ===============================
+// BUSCAR CLIENTE POR ID
+// ===============================
 export function getClientById(id) {
-  const client = clients.find(c => c.id === id);
+  const client = clients.find(c => c.id === Number(id));
 
   if (!client) {
     throw new Error("Cliente não encontrado");
@@ -28,34 +44,71 @@ export function getClientById(id) {
   return client;
 }
 
+// ===============================
+// ATUALIZAR CLIENTE
+// ===============================
 export function updateClient(id, data) {
   const client = getClientById(id);
+
   Object.assign(client, data);
+
   return client;
 }
 
+// ===============================
+// ADICIONAR NOTA (COM DATA)
+// ===============================
 export function addClientNote(id, note) {
   const client = getClientById(id);
 
   const newNote = {
-    id: Date.now().toString(),
-    date: new Date(),
-    description: note
+    note,
+    createdAt: new Date()
   };
 
   client.notes.push(newNote);
 
-  return client;
+  return newNote;
 }
 
+// ===============================
+// BUSCAR HISTÓRICO DE NOTAS
+// ===============================
+export function getClientNotes(id) {
+  const client = getClientById(id);
+
+  return client.notes || [];
+}
+
+// ===============================
+// DEFINIR PRÓXIMA ATUALIZAÇÃO
+// ===============================
 export function setNextUpdate(id, date) {
   const client = getClientById(id);
+
   client.nextUpdate = date;
+
   return client;
 }
 
+// ===============================
+// VINCULAR IMÓVEL
+// ===============================
 export function linkPropertyToClient(id, propertyId) {
   const client = getClientById(id);
+
   client.propertyId = propertyId;
+
+  return client;
+}
+
+// ===============================
+// ATUALIZAR PIPELINE
+// ===============================
+export function updatePipeline(id, pipeline) {
+  const client = getClientById(id);
+
+  client.pipeline = pipeline;
+
   return client;
 }
