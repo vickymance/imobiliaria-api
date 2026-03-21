@@ -1,34 +1,53 @@
-export const users = [];
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-export const properties = [
+// resolve path corretamente (evita bugs)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-{
-id: 1,
-city: "São Paulo",
-neighborhood: "Mooca",
-street: "Rua Madre de Deus",
-size: 160,
-bedrooms: 4,
-type: "Apartamento",
-price: 2695000,
+// arquivos
+const USERS_FILE = path.join(__dirname, 'users.json');
+const PROPERTIES_FILE = path.join(__dirname, 'properties.json');
+const CLIENTS_FILE = path.join(__dirname, 'clients.json');
+const CRECI_FILE = path.join(__dirname, 'creci.json');
 
-images: [
+// helpers
+const load = (file) => {
+  try {
+    const data = fs.readFileSync(file, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error(`Erro ao carregar ${file}:`, error.message);
+    return [];
+  }
+};
 
-"https://iapartamentos.com.br/wp-content/uploads/2024/06/Fachada-MADRE-MOOCA.webp",
+const save = (file, data) => {
+  if (!Array.isArray(data)) {
+    throw new Error('Dados inválidos para persistência');
+  }
+  fs.writeFileSync(file, JSON.stringify(data, null, 2));
+};
 
-"https://images.adsttc.com/media/images/5f6b/38b3/63c0/17b4/4c00/0060/large_jpg/02.jpg",
+// exports
+export let users = load(USERS_FILE);
+export let properties = load(PROPERTIES_FILE);
+export let clients = load(CLIENTS_FILE);
+export let creciRegistry = load(CRECI_FILE);
 
-"https://images.adsttc.com/media/images/5f6b/38b3/63c0/17b4/4c00/0061/large_jpg/03.jpg"
+// updates
+export const updateUsers = (data) => {
+  users = data;
+  save(USERS_FILE, users);
+};
 
-]
+export const updateProperties = (data) => {
+  properties = data;
+  save(PROPERTIES_FILE, properties);
+};
 
-}
-
-];
-
-export const clients = [];
-
-export const creciRegistry = [
-  { number: "123456", status: "active" },
-  { number: "999999", status: "inactive" }
-];
+export const updateClients = (data) => {
+  clients = data;
+  save(CLIENTS_FILE, clients);
+};

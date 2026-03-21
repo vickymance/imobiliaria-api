@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { users } from "../database/database.js";
+import { users, updateUsers } from "../database/database.js";
 import { findCreci } from "./creci.service.js";
 import { JWT_SECRET } from "../config/jwt.js";
 
@@ -35,7 +35,8 @@ export async function registerBroker(data) {
     creci_status: creciStatus
   };
 
-  users.push(newUser);
+  const updatedUsers = [...users, newUser];
+updateUsers(updatedUsers);
 
   return {
     message: "Corretor registrado com sucesso",
@@ -65,7 +66,8 @@ export async function registerClient(data) {
     role: "client"
   };
 
-  users.push(newUser);
+  const updatedUsers = [...users, newUser];
+updateUsers(updatedUsers);
 
   return { message: "Cliente registrado com sucesso" };
 }

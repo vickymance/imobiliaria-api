@@ -1,0 +1,36 @@
+[
+  {
+    "id": "1774023453087",
+    "name": "Isabel Gomes Mance Rodrigues",
+    "email": "isabel.corretora@gmail.com",
+    "password": "$2b$10$rOmKlvRLMw31cCWvEuBocuSjXDXtVnG98yx1mesLwCAbAjRrA/jSK",
+    "role": "broker",
+    "creci": "123456",
+    "creci_status": "active"
+  },
+  {
+    "id": "1774023678043",
+    "name": "Rogerio Rodrigues",
+    "email": "rogerio.corretor@gmail.com",
+    "password": "$2b$10$SUoPxrdBTU92Ica3JbNFHeAy9gqRSQrpyMJ8zSrfrzs5KD24cxBeu",
+    "role": "broker",
+    "creci": "123456",
+    "creci_status": "active"
+  },
+  {
+    "id": "1774023893370",
+    "name": "Vinicius Rodrigues",
+    "email": "vini.rodrigues@gmail.com",
+    "password": "$2b$10$J/2ux0eD91vo/MlGajUVoOSzDtNXGUwKyE7uslrUOUylQY24D22ua",
+    "role": "client"
+  },
+  {
+    "id": "1774057783733",
+    "name": "Douglas Vichi",
+    "email": "dicapita13@gmail.com",
+    "password": "$2b$10$xV6uTwYVArKMbQyZhuYd7eg3vVLY3.KvrmGMLu9.Xn.PXJcHEiO0m",
+    "role": "broker",
+    "creci": "123456",
+    "creci_status": "active"
+  }
+]
