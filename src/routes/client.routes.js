@@ -8,7 +8,8 @@ import {
   setNext,
   linkProperty,
   getNotes,
-  updatePipelineStatus
+  updatePipelineStatus,
+  remove
 } from "../controllers/client.controller.js";
 
 import { authenticate } from "../middleware/auth.middleware.js";
@@ -26,6 +27,7 @@ router.post("/", create);
 router.get("/", list);
 router.get("/:id", getById);
 router.put("/:id", update);
+router.delete("/:id", remove);
 
 // ===============================
 // FOLLOW-UP

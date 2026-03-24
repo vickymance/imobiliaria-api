@@ -32,5 +32,42 @@
     "role": "broker",
     "creci": "123456",
     "creci_status": "active"
+  },
+  {
+    "id": "1774278172400",
+    "name": "Victória Rodrigues",
+    "email": "vicmance@gmail.com",
+    "password": "$2b$10$MRmklk689WtV0XwGl/3Lw.Dmy1fqvFFxk.QTOd1p2r9Z0OZ1F1voC",
+    "role": "broker",
+    "creci": "123456",
+    "creci_status": "active"
+  },
+  {
+    "id": "1774288298441",
+    "name": "Victória Maria",
+    "email": "vicmance.rodrigues@gmail.com",
+    "password": "$2b$10$oE.P2LC.1.EPerWbytdt8eT7P61kfWtytI4nH3CkXoVawK7mDCjXq",
+    "role": "client"
+  },
+  {
+    "id": "1774304171275",
+    "name": "Isabel Gomes Mance Rodrigues",
+    "email": "isabel.cliente@gmail.com",
+    "password": "$2b$10$kNpcXX1Tju2bqcumoDlquuobWUqxpSa3gAscgpyHw4whaOvuwtsju",
+    "role": "client"
+  },
+  {
+    "id": "1774362210668",
+    "name": "Eloise",
+    "email": "eloise@gmail.com",
+    "password": "$2b$10$MMcHwAG0jlnvBiLC8gQZjeWmlnnq5BIsl/lKzZADsKXHwz6iVgOKG",
+    "role": "client"
+  },
+  {
+    "id": "1774386495770",
+    "name": "Kate Sharma",
+    "email": "kate@gmail.com",
+    "password": "$2b$10$TX4t0n8TRgsWtdPujgo4/.LiR8jXmVSIzcVqipv9Xz1oLYQri2b/m",
+    "role": "client"
   }
 ]

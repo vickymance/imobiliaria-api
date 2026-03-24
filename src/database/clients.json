@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Douglas Vichi",
+    "phone": "11972346050",
+    "email": "dicapita13@gmail.com",
+    "regionInterest": "Santos",
+    "notes": [],
+    "pipeline": "quente",
+    "nextUpdate": "2026-03-27"
+  },
+  {
+    "id": 4,
+    "name": "Isabel Rodrigues",
+    "phone": "11972875398",
+    "email": "isabel.mance@gmail.com",
+    "regionInterest": "Ribeirão Pires",
+    "notes": [],
+    "pipeline": "quente",
+    "nextUpdate": "2026-03-22"
+  }
+]

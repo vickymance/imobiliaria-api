@@ -1,4 +1,4 @@
-import { clients } from "../database/database.js";
+import { clients, updateClients } from "../database/database.js";
 import { createClient } from "../models/client.model.js";
 
 // ===============================
@@ -19,7 +19,8 @@ pipeline: "frio",
     nextUpdate: null
   };
 
-  clients.push(newClient);
+ const updatedClients = [...clients, newClient];
+updateClients(updatedClients);
 
   return newClient;
 }
@@ -50,9 +51,15 @@ export function getClientById(id) {
 export function updateClient(id, data) {
   const client = getClientById(id);
 
-  Object.assign(client, data);
+ Object.assign(client, data);
 
-  return client;
+const updatedClients = clients.map(c =>
+  c.id === client.id ? client : c
+);
+
+updateClients(updatedClients);
+
+return client;
 }
 
 // ===============================
@@ -88,6 +95,12 @@ export function setNextUpdate(id, date) {
 
   client.nextUpdate = date;
 
+  const updatedClients = clients.map(c =>
+    c.id === client.id ? client : c
+  );
+
+  updateClients(updatedClients);
+
   return client;
 }
 
@@ -109,6 +122,22 @@ export function updatePipeline(id, pipeline) {
   const client = getClientById(id);
 
   client.pipeline = pipeline;
+
+  return client;
+}
+// ===============================
+// DELETE
+// ===============================
+export function deleteClient(id) {
+  const client = clients.find(c => c.id === Number(id));
+
+  if (!client) {
+    throw new Error("Cliente não encontrado");
+  }
+
+  const updatedClients = clients.filter(c => c.id !== Number(id));
+
+  updateClients(updatedClients);
 
   return client;
 }

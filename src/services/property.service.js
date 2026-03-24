@@ -1,7 +1,12 @@
-import { properties } from "../database/database.js";
+import { getProperties, updateProperties } from "../database/database.js";
 import { createProperty } from "../models/property.model.js";
 
+// ===============================
+// CRIAR IMÓVEL
+// ===============================
 export function addProperty(data) {
+
+  const properties = getProperties();
 
   const {
     city,
@@ -23,52 +28,64 @@ export function addProperty(data) {
     price === undefined
   ) {
     const error = new Error("Campos obrigatórios não preenchidos");
-  error.status = 400;
-  throw error;
+    error.status = 400;
+    throw error;
   }
 
-  // 🔥 NOVAS VALIDAÇÕES PROFISSIONAIS
-
+  // validações
   if (typeof size !== "number" || size <= 0) {
-   const error = new Error("Tamanho inválido");
+    const error = new Error("Tamanho inválido");
     error.status = 400;
-  throw error;
+    throw error;
   }
 
   if (typeof bedrooms !== "number" || bedrooms <= 0) {
-  const error = new Error("Quantidade de quartos inválida");
-  error.status = 400;
-  throw error;
+    const error = new Error("Quantidade de quartos inválida");
+    error.status = 400;
+    throw error;
   }
 
   if (typeof price !== "number" || price <= 0) {
-  const error = new Error("Preço inválido");
-  error.status = 400;
-  throw error;
+    const error = new Error("Preço inválido");
+    error.status = 400;
+    throw error;
   }
 
- const newProperty = {
-  id: properties.length + 1,
-  city,
-  neighborhood,
-  street,
-  size,
-  bedrooms,
-  type,
-  price,
-  images: data.images || []
-};
+  const newProperty = {
+    id: properties.length + 1,
+    city,
+    neighborhood,
+    street,
+    size,
+    bedrooms,
+    type,
+    price,
+    images: data.images || []
+  };
 
   properties.push(newProperty);
+
+  updateProperties(properties);
 
   return newProperty;
 }
 
+
+// ===============================
+// LISTAR TODOS
+// ===============================
 export function getAllProperties() {
-  return properties;
+  return getProperties();
 }
 
+
+// ===============================
+// BUSCAR POR ID
+// ===============================
 export function getPropertyById(id) {
+
+  const properties = getProperties();
+
   const property = properties.find(
     p => p.id === Number(id)
   );
@@ -82,7 +99,13 @@ export function getPropertyById(id) {
   return property;
 }
 
+
+// ===============================
+// ATUALIZAR
+// ===============================
 export function updateProperty(id, data) {
+
+  const properties = getProperties();
 
   const property = properties.find(
     p => p.id === Number(id)
@@ -110,10 +133,18 @@ export function updateProperty(id, data) {
 
   Object.assign(property, data);
 
+  updateProperties(properties);
+
   return property;
 }
 
+
+// ===============================
+// DELETAR
+// ===============================
 export function deleteProperty(id) {
+
+  const properties = getProperties();
 
   const index = properties.findIndex(
     p => p.id === Number(id)
@@ -126,6 +157,8 @@ export function deleteProperty(id) {
   }
 
   const deletedProperty = properties.splice(index, 1)[0];
+
+  updateProperties(properties);
 
   return deletedProperty;
 }

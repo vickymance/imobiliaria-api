@@ -6,6 +6,9 @@ import {
   deleteProperty
 } from "../services/property.service.js";
 
+// ===============================
+// CRIAR
+// ===============================
 export function create(req, res) {
   try {
     const property = addProperty(req.body);
@@ -15,59 +18,50 @@ export function create(req, res) {
   }
 }
 
+// ===============================
+// LISTAR
+// ===============================
 export function list(req, res) {
   const properties = getAllProperties();
 
-  // Se for CLIENT → modo vitrine
-  if (req.user.role === "client") {
-    const showcase = properties.map(property => ({
-      id: property.id,
-      city: property.city,
-      neighborhood: property.neighborhood,
-      type: property.type,
-      price: property.price,
-      image: property.images?.[0] || null
-    }));
-
-    return res.json(showcase);
-  }
-
-  // Se for BROKER → retorna completo
+  // 🔥 CLIENTE AGORA VÊ TODOS OS DADOS
   return res.json(properties);
 }
 
+// ===============================
+// BUSCAR POR ID
+// ===============================
 export function getById(req, res) {
   try {
     const property = getPropertyById(req.params.id);
 
-    if (req.user.role === "client") {
-      return res.json({
-        id: property.id,
-        city: property.city,
-        neighborhood: property.neighborhood,
-        type: property.type,
-        price: property.price,
-        image: property.images[0] || null
-      });
-    }
-
+    // 🔥 CLIENTE AGORA VÊ TODOS OS DADOS
     return res.json(property);
+
   } catch (error) {
-    res.status(error.status || 500).json({ 
-      error: error.message });
+    res.status(error.status || 500).json({
+      error: error.message
+    });
   }
 }
 
+// ===============================
+// ATUALIZAR
+// ===============================
 export function update(req, res) {
   try {
     const property = updateProperty(req.params.id, req.body);
     res.json(property);
   } catch (error) {
     res.status(error.status || 500).json({
-       error: error.message });
+      error: error.message
+    });
   }
 }
 
+// ===============================
+// DELETAR
+// ===============================
 export function remove(req, res) {
   try {
     const property = deleteProperty(req.params.id);

@@ -7,7 +7,8 @@ import {
   setNextUpdate,
   linkPropertyToClient,
   getClientNotes,
-  updatePipeline
+  updatePipeline,
+  deleteClient
 } from "../services/client.service.js";
 
 // ===============================
@@ -111,6 +112,18 @@ export function linkProperty(req, res) {
 export function updatePipelineStatus(req, res) {
   try {
     const client = updatePipeline(req.params.id, req.body.pipeline);
+    res.json(client);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
+// ===============================
+// DELETE CLIENT 
+// ===============================
+export function remove(req, res) {
+  try {
+    const client = deleteClient(req.params.id);
     res.json(client);
   } catch (error) {
     res.status(404).json({ error: error.message });

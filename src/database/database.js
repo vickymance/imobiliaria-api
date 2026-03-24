@@ -35,6 +35,7 @@ export let users = load(USERS_FILE);
 export let properties = load(PROPERTIES_FILE);
 export let clients = load(CLIENTS_FILE);
 export let creciRegistry = load(CRECI_FILE);
+export const getProperties = () => load(PROPERTIES_FILE);
 
 // updates
 export const updateUsers = (data) => {
