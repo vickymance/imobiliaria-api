@@ -1,22 +1,42 @@
 [
   {
     "id": 1,
-    "name": "Douglas Vichi",
-    "phone": "11972346050",
-    "email": "dicapita13@gmail.com",
-    "regionInterest": "Santos",
-    "notes": [],
-    "pipeline": "quente",
-    "nextUpdate": "2026-03-27"
-  },
-  {
-    "id": 4,
     "name": "Isabel Rodrigues",
     "phone": "11972875398",
     "email": "isabel.mance@gmail.com",
     "regionInterest": "Ribeirão Pires",
-    "notes": [],
+    "notes": [
+      {
+        "note": "Cliente solicitou agendar visita para sábado dia 28/03 as 10 hrs.       ",
+        "createdAt": "2026-03-26T17:02:31.614Z"
+      }
+    ],
     "pipeline": "quente",
-    "nextUpdate": "2026-03-22"
+    "nextUpdate": "2026-03-28"
+  },
+  {
+    "id": 2,
+    "name": "Rogério Rodrigues",
+    "phone": "11972875399",
+    "email": "rogeriodrixx@gmail.com",
+    "regionInterest": "Ribeirão Pires",
+    "notes": [
+      {
+        "note": "Cliente solicitou visita dia 04/04 as 10 hrs.        ",
+        "createdAt": "2026-03-26T17:28:11.995Z"
+      }
+    ],
+    "pipeline": "morno",
+    "nextUpdate": "2026-04-03"
+  },
+  {
+    "id": 3,
+    "name": "Vinicius Rodrigues",
+    "phone": "11912345698",
+    "email": "vini.rodrigues@gmail.com",
+    "regionInterest": "São Paulo",
+    "notes": [],
+    "pipeline": "frio",
+    "nextUpdate": "2026-03-30"
   }
 ]
